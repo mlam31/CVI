@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "56770480178",
+    "project_id": "projetbddl3-c232c",
+    "storage_bucket": "projetbddl3-c232c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56770480178:android:33b3f86286879993e1142b",
+        "android_client_info": {
+          "package_name": "com.carnetdevoyageintelligent.cvi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTcWZ0OOA7262fjXEByLVXWSliPLCoPRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

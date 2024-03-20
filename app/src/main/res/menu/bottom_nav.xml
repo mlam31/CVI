@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/bottom_map"
+        android:title="@string/map_title"
+        android:icon="@drawable/baseline_map_24" />
+    <item android:id="@+id/bottom_gallery"
+        android:title="@string/gallery_title"
+        android:icon="@drawable/baseline_photo_library_24" />
+    <item android:id="@+id/bottom_trip"
+        android:title="@string/trip_title"
+        android:icon="@drawable/baseline_airplane_ticket_24" />
+</menu>
