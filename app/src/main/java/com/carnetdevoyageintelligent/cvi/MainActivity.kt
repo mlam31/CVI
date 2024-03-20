@@ -9,7 +9,6 @@ import com.carnetdevoyageintelligent.cvi.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var fragmentManager: FragmentManager
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
