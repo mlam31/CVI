@@ -2,11 +2,11 @@
     <string name="app_name">CVI</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="map_fragment">Map fragment</string>
+    <string name="map_fragment">OpenStreetMap</string>
     <string name="map_title">Map</string>
-    <string name="gallery_fragment">Gallery fragment</string>
+    <string name="gallery_fragment">Galerie photos</string>
     <string name="gallery_title">Gallery</string>
-    <string name="trip_fragment">Trip fragment</string>*
+    <string name="trip_fragment">Les Voyages</string>*
     <string name="trip_title">Voyage</string>
     <string name="item_gallery_description">affiche les images</string>
 </resources>

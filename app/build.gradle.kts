@@ -40,17 +40,25 @@ android {
 }
 
 dependencies {
+    testImplementation(libs.junit)
+    implementation(libs.material)
+    implementation(libs.glide)
+
+    // Firebase
+    implementation(libs.firebase.storage)
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.database.ktx)
+
+    // Androidx
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.firebase.storage)
-    implementation(libs.glide)
     implementation(libs.androidx.mediarouter)
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.osmdroid.android)
 }
