@@ -7,14 +7,11 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:adjustViewBounds="true"
-        android:layout_marginStart="10dp"
         android:contentDescription="@string/grid_item_description"
         android:scaleType="centerCrop"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="5dp" />
+        tools:ignore="MissingConstraints"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

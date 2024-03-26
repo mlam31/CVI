@@ -1,6 +1,6 @@
 package com.carnetdevoyageintelligent.cvi
 
-import ImageGridAdapter
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,11 +27,13 @@ class Gallery : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        recyclerView.addItemDecoration(EqualSpacingItemDecoration(3, resources.getDimensionPixelSize(R.dimen.grid_spacing), true))
 
         storage = FirebaseStorage.getInstance()
         val imagesRef: StorageReference = storage.reference.child("images")
@@ -53,7 +55,4 @@ class Gallery : Fragment() {
         }
     }
 
-    companion object {
-        private const val TAG = "GalleryFragment"
-    }
 }
