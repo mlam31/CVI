@@ -16,6 +16,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+    viewBinding {
+        enable = true
+    }
     }
 
     buildTypes {
@@ -29,6 +33,8 @@ android {
     }
     buildFeatures{
         viewBinding = true
+        //noinspection DataBindingWithoutKapt
+        dataBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -61,4 +67,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
     implementation(libs.osmdroid.android)
+
+    implementation(libs.picasso)
+    implementation(libs.androidx.databinding.runtime)
+    implementation(libs.androidx.recyclerview)
+
 }

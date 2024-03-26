@@ -4,9 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="map_fragment">OpenStreetMap</string>
     <string name="map_title">Map</string>
-    <string name="gallery_fragment">Galerie photos</string>
+    <string name="gallery_fragment">Firebase Cloud Storage</string>
     <string name="gallery_title">Gallery</string>
     <string name="trip_fragment">Les Voyages</string>*
     <string name="trip_title">Voyage</string>
     <string name="item_gallery_description">affiche les images</string>
+    <string name="grid_item_description">grille d\'images</string>
 </resources>
