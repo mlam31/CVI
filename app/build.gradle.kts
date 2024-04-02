@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
 android {
     namespace = "com.carnetdevoyageintelligent.cvi"
     compileSdk = 34
@@ -45,10 +46,18 @@ android {
     }
 }
 
+
+
 dependencies {
+    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     implementation(libs.material)
     implementation(libs.glide)
+
+    //OpenStreetMap
+    implementation("org.osmdroid:osmdroid-android:6.1.18")
+    implementation(libs.androidx.preference.ktx)
+
 
     // Firebase
     implementation(libs.firebase.storage)
