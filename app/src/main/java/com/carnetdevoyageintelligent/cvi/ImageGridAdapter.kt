@@ -25,11 +25,6 @@ class ImageGridAdapter(private val context: Context, private val imageUrls: Muta
         return imageUrls.size
     }
 
-    fun addImageUrl(imageUrl: String) {
-        imageUrls.add(imageUrl)
-        notifyItemInserted(0)
-    }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image_view)
     }

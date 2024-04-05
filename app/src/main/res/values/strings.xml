@@ -10,5 +10,6 @@
     <string name="trip_title">Voyage</string>
     <string name="item_gallery_description">affiche les images</string>
     <string name="grid_item_description">grille d\'images</string>
+    <string name="add_trip_button_desc">bouton d\'ajout d\'un nouveau voyage</string>
 
 </resources>

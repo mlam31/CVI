@@ -50,6 +50,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
     testImplementation(libs.junit)
     implementation(libs.material)
     implementation(libs.glide)

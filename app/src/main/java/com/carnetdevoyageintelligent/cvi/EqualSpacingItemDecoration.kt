@@ -16,23 +16,22 @@ class EqualSpacingItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val position = parent.getChildAdapterPosition(view) // position de l'élément dans l'adaptateur
-        val column = position % spanCount // colonne de l'élément
+        val position = parent.getChildAdapterPosition(view)
+        val column = position % spanCount
 
-        if (includeEdge) {
-            outRect.left = spacing - column * spacing / spanCount // espacement gauche
-            outRect.right = (column + 1) * spacing / spanCount // espacement droit
-            if (position < spanCount) { // premier rang
-                outRect.top = spacing
-            }
-            outRect.bottom = spacing // espacement en dessous de l'élément
-        } else {
-            outRect.left = column * spacing / spanCount // espacement gauche
-            outRect.right = spacing - (column + 1) * spacing / spanCount // espacement droit
-            if (position >= spanCount) {
-                outRect.top = spacing // espacement au-dessus de l'élément
-            }
+        // Calcul de l'espacement gauche et droit
+        outRect.left = column * spacing / spanCount
+        outRect.right = spacing - (column + 1) * spacing / spanCount
+
+        // Si c'est la première ligne, appliquer l'espacement en haut
+        if (position < spanCount) {
+            outRect.top = spacing
         }
+
+        // Application de l'espacement en bas
+        outRect.bottom = spacing
     }
+
+
 }
 
