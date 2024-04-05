@@ -56,7 +56,7 @@ dependencies {
     implementation(libs.glide)
 
     //OpenStreetMap
-    implementation("org.osmdroid:osmdroid-android:6.1.18")
+    implementation(libs.osmdroid.android)
     implementation(libs.androidx.preference.ktx)
 
 

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class ImageGridAdapter(private val context: Context, private val imageUrls: MutableList<String>) :
+class ImageGridAdapter(private val imageUrls: MutableList<String>) :
     RecyclerView.Adapter<ImageGridAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
