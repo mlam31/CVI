@@ -6,15 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageButton
 
 class Trip : Fragment() {
+    private lateinit var viewFragment: View
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trip, container, false)
+        val view = inflater.inflate(R.layout.fragment_trip, container, false)
+        viewFragment = view // Assigner la vue inflatée à la variable viewFragment
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,20 +31,29 @@ class Trip : Fragment() {
     }
     private fun showMyDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Ajout d'un nouveau voyage")
-        builder.setMessage("Déterminer le nom du voyage")
-        builder.setNeutralButton("Ajouter un voyage") { dialog, _ ->
-            // Action à effectuer lorsque l'utilisateur appuie sur le bouton Annuler
-            dialog.dismiss() // Fermer la fenêtre
-        }
-        builder.setNegativeButton("Annuler") { dialog, _ ->
-            // Action à effectuer lorsque l'utilisateur appuie sur le bouton Annuler
-            dialog.dismiss() // Fermer la fenêtre
-        }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_trip, null)
+        builder.setView(dialogView)
 
 
         val dialog = builder.create()
         dialog.show()
+
+        val editTextTripName = dialogView.findViewById<EditText>(R.id.editTextTripName)
+
+        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+        val buttonAddTrip = dialogView.findViewById<Button>(R.id.buttonAddTrip)
+
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        buttonAddTrip.setOnClickListener {
+            val tripName = editTextTripName.text.toString()
+            // fonction qui ajoute un dossier dans firebase et dans l'interface
+            dialog.dismiss()
+        }
     }
+
 
 }

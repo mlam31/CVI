@@ -11,5 +11,9 @@
     <string name="item_gallery_description">affiche les images</string>
     <string name="grid_item_description">grille d\'images</string>
     <string name="add_trip_button_desc">bouton d\'ajout d\'un nouveau voyage</string>
+    <string name="dialog_add_trip_text">Ajout d\'un nouveau voyage</string>
+    <string name="edit_trip_name_text">Entrez le nom du voyage</string>
+    <string name="cancel_button_text">Annuler</string>
+    <string name="add_button_text">Ajouter</string>
 
 </resources>
