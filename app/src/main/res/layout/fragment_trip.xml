@@ -14,6 +14,12 @@
         android:gravity="center"
         android:background="@color/green"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tripRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"/>
+
     <ImageButton
         android:id="@+id/add_trip_button"
         android:layout_width="50dp"

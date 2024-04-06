@@ -2,11 +2,11 @@
     <string name="app_name">CVI</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="map_fragment">OpenStreetMapSaluut</string>
+    <string name="map_fragment">OpenStreetMapceeeeee</string>
     <string name="map_title">Map</string>
     <string name="gallery_fragment">Firebase Cloud Storage</string>
     <string name="gallery_title">Gallery</string>
-    <string name="trip_fragment">Les Voyages</string>*
+    <string name="trip_fragment">Répertoire des voyages</string>*
     <string name="trip_title">Voyage</string>
     <string name="item_gallery_description">affiche les images</string>
     <string name="grid_item_description">grille d\'images</string>
@@ -15,5 +15,6 @@
     <string name="edit_trip_name_text">Entrez le nom du voyage</string>
     <string name="cancel_button_text">Annuler</string>
     <string name="add_button_text">Ajouter</string>
+    <string name="edit_trip_button_desc">option pour le voyage</string>
 
 </resources>
