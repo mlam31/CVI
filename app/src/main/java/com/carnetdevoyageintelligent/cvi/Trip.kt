@@ -24,7 +24,7 @@ import com.google.firebase.storage.FirebaseStorage
 class Trip : Fragment() {
     private lateinit var viewFragment: View
     private val tripList = mutableListOf<String>()
-    private var tripName: String? = null // Déclarer tripName ici
+    private var tripName: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,16 +38,39 @@ class Trip : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val button: AppCompatImageButton = view.findViewById(R.id.add_trip_button)
-        button.setOnClickListener {
+        val addButton: AppCompatImageButton = view.findViewById(R.id.add_trip_button)
+        addButton.setOnClickListener {
             showMyDialog()
         }
-
-        // Utilisez la variable de classe tripList ici
+        val refreshButton : AppCompatImageButton = view.findViewById(R.id.refresh_trip_button)
+        refreshButton.setOnClickListener{
+            refreshFragment()
+        }
         val recyclerView: RecyclerView = view.findViewById(R.id.tripRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val adapter = TripAdapter(tripList)
         recyclerView.adapter = adapter
+
+        // Récupérer les noms de dossier depuis Firebase Storage
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+
+        storageRef.listAll()
+            .addOnSuccessListener { listResult ->
+                // Parcourir la liste des dossiers et récupérer leur nom
+                val folderNames = listResult.prefixes.map { it.name }
+
+                // Mettre à jour la liste de données de l'adaptateur avec les noms des dossiers
+                tripList.clear()
+                tripList.addAll(folderNames)
+
+                // Notifier l'adaptateur du changement de données sur le thread principal
+                adapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { exception ->
+                // Gérer les erreurs de récupération des dossiers
+                Log.e(TAG, "Error retrieving folder names: ${exception.message}")
+            }
     }
 
     private fun showMyDialog() {
@@ -126,7 +149,21 @@ class Trip : Fragment() {
                 }
         }
     }
+    private fun refreshFragment() {
+        // Obtenez le gestionnaire de fragment et commencez une transaction
+        val fragmentManager = requireActivity().supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
 
+        // Remplacez le fragment actuel par un nouveau fragment Trip
+        val newFragment = Trip()
+        fragmentTransaction.replace(R.id.fragment_trip, newFragment)
+
+        // Ajoutez la transaction à la pile de retour pour permettre un retour en arrière
+        fragmentTransaction.addToBackStack(null)
+
+        // Validez la transaction pour effectuer le remplacement
+        fragmentTransaction.commit()
+    }
 }
 
 
