@@ -1,5 +1,6 @@
 package com.carnetdevoyageintelligent.cvi
 
+
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -23,7 +24,8 @@ import com.google.firebase.storage.FirebaseStorage
 class Trip : Fragment() {
     private lateinit var viewFragment: View
     private val tripList = mutableListOf<String>()
-    private var tripName: String? = null
+    private var tripName: String? = null // Déclarer tripName ici
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,31 +74,6 @@ class Trip : Fragment() {
         dialog.show()
     }
 
-
-    private fun openGalleryForPhotos() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        pickImages.launch(intent)
-    }
-    private fun uploadImagesToFirebase(selectedImagesUriList: List<Uri>, tripName: String) {
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference
-        val tripFolderRef = storageRef.child(tripName)
-
-        selectedImagesUriList.forEachIndexed { index, uri ->
-            val imageRef = tripFolderRef.child("image_$index.jpg")
-            imageRef.putFile(uri)
-                .addOnSuccessListener {
-                    // L'image a été téléchargée avec succès
-                    Log.d(TAG, "Image uploaded successfully: ${it.metadata?.path}")
-                }
-                .addOnFailureListener { e ->
-                    // Erreur lors du téléchargement de l'image
-                    Log.e(TAG, "Error uploading image: ${e.message}")
-                }
-        }
-    }
     private val pickImages =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -123,6 +100,32 @@ class Trip : Fragment() {
                 }
             }
         }
+
+    private fun openGalleryForPhotos() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        pickImages.launch(intent)
+    }
+
+    private fun uploadImagesToFirebase(selectedImagesUriList: List<Uri>, tripName: String) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val tripFolderRef = storageRef.child(tripName)
+
+        selectedImagesUriList.forEachIndexed { index, uri ->
+            val imageRef = tripFolderRef.child("image_$index.jpg")
+            imageRef.putFile(uri)
+                .addOnSuccessListener {
+                    // L'image a été téléchargée avec succès
+                    Log.d(TAG, "Image uploaded successfully: ${it.metadata?.path}")
+                }
+                .addOnFailureListener { e ->
+                    // Erreur lors du téléchargement de l'image
+                    Log.e(TAG, "Error uploading image: ${e.message}")
+                }
+        }
+    }
 
 }
 
