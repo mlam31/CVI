@@ -1,8 +1,10 @@
 package com.carnetdevoyageintelligent.cvi
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,15 +12,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+
 
 class Trip : Fragment() {
     private lateinit var viewFragment: View
     private val tripList = mutableListOf<String>()
+    private var tripName: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +47,7 @@ class Trip : Fragment() {
         val adapter = TripAdapter(tripList)
         recyclerView.adapter = adapter
     }
+
     private fun showMyDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Ajout d'un nouveau voyage")
@@ -49,14 +55,14 @@ class Trip : Fragment() {
         val editTextTripName = EditText(requireContext())
         builder.setView(editTextTripName)
         builder.setNeutralButton("Ajouter un voyage") { dialog, _ ->
-            val tripName = editTextTripName.text.toString()
-            if (tripName.isNotEmpty()) {
-                createFolderInStorage(tripName)
-                tripList.add(tripName) // Ajouter le nom du voyage à la liste
-                // Mettez à jour votre RecyclerView avec la nouvelle liste de voyages
-                updateRecyclerView()
+            tripName = editTextTripName.text.toString() // Assigner le nom du voyage ici
+            if (tripName!!.isNotEmpty()) {
+                dialog.dismiss() // Fermer la fenêtre
+                openGalleryForPhotos()
+            } else {
+                // Afficher un message d'erreur si le champ est vide
+                Toast.makeText(requireContext(), "Veuillez saisir un nom de voyage", Toast.LENGTH_SHORT).show()
             }
-            dialog.dismiss() // Fermer la fenêtre
         }
         builder.setNegativeButton("Annuler") { dialog, _ ->
             dialog.dismiss() // Fermer la fenêtre
@@ -65,33 +71,59 @@ class Trip : Fragment() {
         val dialog = builder.create()
         dialog.show()
     }
-    private fun createFolderInStorage(folderName: String) {
-        val storageRef: StorageReference = FirebaseStorage.getInstance().reference
-        val tripFolderRef: StorageReference = storageRef.child(folderName)
 
-        // Ajoutez un fichier vide dans le dossier pour le créer
-        val emptyFile: ByteArray = byteArrayOf()
-        tripFolderRef.putBytes(emptyFile)
-            .addOnSuccessListener {
-                // Le dossier a été créé avec succès
-                Log.d(TAG, "Dossier vide créé avec succès: $folderName")
-            }
-            .addOnFailureListener { exception ->
-                // Une erreur s'est produite lors de la création du dossier
-                Log.e(TAG, "Erreur lors de la création du dossier vide $folderName: ${exception.message}")
-            }
+
+    private fun openGalleryForPhotos() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        pickImages.launch(intent)
     }
+    private fun uploadImagesToFirebase(selectedImagesUriList: List<Uri>, tripName: String) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val tripFolderRef = storageRef.child(tripName)
 
-
-
-
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun updateRecyclerView() {
-        // Utilisez la liste de voyages pour mettre à jour votre RecyclerView avec les nouveaux noms de voyage
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.tripRecyclerView)
-        recyclerView?.adapter?.notifyDataSetChanged()
+        selectedImagesUriList.forEachIndexed { index, uri ->
+            val imageRef = tripFolderRef.child("image_$index.jpg")
+            imageRef.putFile(uri)
+                .addOnSuccessListener {
+                    // L'image a été téléchargée avec succès
+                    Log.d(TAG, "Image uploaded successfully: ${it.metadata?.path}")
+                }
+                .addOnFailureListener { e ->
+                    // Erreur lors du téléchargement de l'image
+                    Log.e(TAG, "Error uploading image: ${e.message}")
+                }
+        }
     }
+    private val pickImages =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                // Traitement des données retournées par l'activité de sélection d'images
+                data?.let {
+                    val selectedImagesUriList = mutableListOf<Uri>()
+                    if (it.clipData != null) {
+                        // Plusieurs images sélectionnées
+                        val clipData = it.clipData
+                        for (i in 0 until clipData!!.itemCount) {
+                            val uri = clipData.getItemAt(i).uri
+                            selectedImagesUriList.add(uri)
+                        }
+                    } else if (it.data != null) {
+                        // Une seule image sélectionnée
+                        val uri = it.data
+                        selectedImagesUriList.add(uri!!)
+                    }
+                    // Télécharger les images dans Firebase Storage
+                    tripName?.let { name ->
+                        uploadImagesToFirebase(selectedImagesUriList, name)
+                    }
+                }
+            }
+        }
 
 }
+
+
