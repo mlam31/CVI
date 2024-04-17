@@ -7,7 +7,7 @@
     android:layout_marginTop="10dp"
     app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red">
@@ -17,9 +17,22 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginStart="30dp"
-            android:text="Nom du voyage"
+            android:text="@string/trip_name"
             android:textSize="30sp" />
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/options_button"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="290dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/blue"
+            android:contentDescription="@string/trip_options_button_desc"
+            android:src="@drawable/three_dots_vertical"/>
+
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

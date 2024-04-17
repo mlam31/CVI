@@ -16,5 +16,11 @@
     <string name="cancel_button_text">Annuler</string>
     <string name="add_button_text">Ajouter</string>
     <string name="edit_trip_button_desc">option pour le voyage</string>
+    <string name="add_photo_title">Ajouter des photos</string>
+    <string name="preview_trip_title">Aperçu des photos</string>
+    <string name="delete_trip_title">Supprimer le dossier</string>
+    <string name="trip_name">Nom du voyage</string>
+    <string name="trip_options_button_desc">options pour voyage</string>
+    <string name="refresh_button_desc">rafraichissement de l\'affichage des voyages</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.carnetdevoyageintelligent.cvi
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -13,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageButton
@@ -36,6 +38,7 @@ class Trip : Fragment() {
         return view
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val addButton: AppCompatImageButton = view.findViewById(R.id.add_trip_button)
@@ -48,13 +51,12 @@ class Trip : Fragment() {
         }
         val recyclerView: RecyclerView = view.findViewById(R.id.tripRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = TripAdapter(tripList)
+        val adapter = TripAdapter(tripList) { _, anchorView ->
+            showPopupMenu( anchorView)
+        }
         recyclerView.adapter = adapter
-
-        // Récupérer les noms de dossier depuis Firebase Storage
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
-
         storageRef.listAll()
             .addOnSuccessListener { listResult ->
                 // Parcourir la liste des dossiers et récupérer leur nom
@@ -163,6 +165,30 @@ class Trip : Fragment() {
 
         // Validez la transaction pour effectuer le remplacement
         fragmentTransaction.commit()
+    }
+    fun showPopupMenu(anchorView: View) {
+        val popupMenu = PopupMenu(requireContext(), anchorView)
+        popupMenu.inflate(R.menu.option_menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_add_photos -> {
+                    // Action à effectuer lorsque l'option "Ajouter des photos" est sélectionnée
+                    true
+                }
+                R.id.menu_preview_photos -> {
+                    // Action à effectuer lorsque l'option "Aperçu des photos" est sélectionnée
+                    true
+                }
+                R.id.menu_delete_folder -> {
+                    // Action à effectuer lorsque l'option "Supprimer le dossier" est sélectionnée
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
     }
 }
 

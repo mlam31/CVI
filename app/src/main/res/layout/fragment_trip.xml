@@ -29,10 +29,10 @@
 
     <ImageButton
         android:id="@+id/add_trip_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginTop="600dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="350dp"
         android:background="@color/green"
         android:contentDescription="@string/add_trip_button_desc"
         android:foreground="?android:attr/selectableItemBackground"
@@ -40,12 +40,12 @@
 
     <ImageButton
         android:id="@+id/refresh_trip_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
         android:layout_marginTop="670dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="350dp"
         android:background="@color/green"
-        android:contentDescription="rafraichissement de l'affichage des voyages"
+        android:contentDescription="@string/refresh_button_desc"
         android:foreground="?android:attr/selectableItemBackground"
         android:src="@drawable/refresh_icon" />
 
