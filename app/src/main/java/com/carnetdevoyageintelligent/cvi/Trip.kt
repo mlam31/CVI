@@ -172,12 +172,8 @@ class Trip : Fragment() {
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menu_add_photos -> {
+                R.id.menu_rename_folder -> {
                     // Action à effectuer lorsque l'option "Ajouter des photos" est sélectionnée
-                    true
-                }
-                R.id.menu_preview_photos -> {
-                    // Action à effectuer lorsque l'option "Aperçu des photos" est sélectionnée
                     true
                 }
                 R.id.menu_delete_folder -> {

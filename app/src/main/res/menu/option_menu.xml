@@ -2,16 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/menu_option">
     <item
-        android:id="@+id/menu_add_photos"
-        android:title="@string/add_photo_title"
-        android:icon="@drawable/baseline_add_a_photo_24"/>
-    <item
-        android:id="@+id/menu_preview_photos"
-        android:title="@string/preview_trip_title"
-        android:icon="@drawable/baseline_photo_library_24"/>
+        android:id="@+id/menu_rename_folder"
+        android:title="@string/rename_option_title"
+        android:icon="@drawable/baseline_delete_24"/>
     <item
         android:id="@+id/menu_delete_folder"
         android:title="@string/delete_trip_title"
         android:icon="@drawable/baseline_delete_24"/>
+
 
 </menu>
