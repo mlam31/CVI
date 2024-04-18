@@ -10,4 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <ImageButton
+        android:id="@+id/zoom_out_button"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginTop="600dp"
+        android:layout_marginStart="360dp"
+        android:src="@drawable/minus_icon"
+        android:background="@color/green"
+        android:contentDescription="@string/zoom_out_button_desc" />
+
+    <ImageButton
+        android:id="@+id/zoom_in_button"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_marginTop="550dp"
+        android:layout_marginStart="360dp"
+        android:src="@drawable/baseline_add_24"
+        android:background="@color/green"
+        android:contentDescription="@string/zoom_in_button_desc" />
+
 </RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/rename_trip_text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"/>
+
+    <!-- Champ de saisie pour le nom du voyage -->
+    <EditText
+        android:id="@+id/editTextTripRename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/rename_text"
+        android:inputType="text"
+        android:padding="16dp"
+        android:autofillHints="" />
+
+    <!-- Boutons de la boîte de dialogue -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        tools:ignore="RtlSymmetry">
+
+        <!-- Bouton Annuler -->
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button_text"
+            android:layout_marginEnd="8dp"
+            android:background="@color/green"
+            style="?android:attr/buttonBarButtonStyle" />
+
+
+        <!-- Bouton Ajouter -->
+        <Button
+            android:id="@+id/buttonRenameTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rename_button_text"
+            android:layout_marginEnd="8dp"
+            android:background="@color/green"
+            style="?android:attr/buttonBarButtonStyle" />
+
+    </LinearLayout>
+</LinearLayout>

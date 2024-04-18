@@ -45,7 +45,7 @@ class Trip : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val addButton: AppCompatImageButton = view.findViewById(R.id.add_trip_button)
         addButton.setOnClickListener {
-            showMyDialog()
+            addTripDialog()
         }
         val refreshButton: AppCompatImageButton = view.findViewById(R.id.refresh_trip_button)
         refreshButton.setOnClickListener {
@@ -59,9 +59,9 @@ class Trip : Fragment() {
             { tripName, anchorView -> showPopupMenu(tripName, anchorView) },
             this::previewPhotosClick,
             this::addPhotosClick,
-            recyclerView,
+            recyclerView
+            )
 
-        )
         recyclerView.adapter = adapter
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -83,7 +83,7 @@ class Trip : Fragment() {
             }
     }
 
-    private fun showMyDialog() {
+    private fun addTripDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Ajout d'un nouveau voyage")
         builder.setMessage("Déterminer le nom du voyage")
@@ -106,7 +106,33 @@ class Trip : Fragment() {
         builder.setNegativeButton("Annuler") { dialog, _ ->
             dialog.dismiss() // Fermer la fenêtre
         }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
+    private fun renameTripDialog(){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Renommer le voyage")
+        builder.setMessage("Déterminer le nom du voyage")
+        val editTextTripRename = EditText(requireContext())
+        builder.setView(editTextTripRename)
+        builder.setNeutralButton("Renommer") { dialog, _ ->
+            tripName = editTextTripRename.text.toString() // Assigner le nom du voyage ici
+            if (tripName!!.isNotEmpty()) {
+                dialog.dismiss() // Fermer la fenêtre
+                // fct renommer le voyage
+            } else {
+                // Afficher un message d'erreur si le champ est vide
+                Toast.makeText(
+                    requireContext(),
+                    "Veuillez saisir un nom de voyage",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        builder.setNegativeButton("Annuler") { dialog, _ ->
+            dialog.dismiss() // Fermer la fenêtre
+        }
         val dialog = builder.create()
         dialog.show()
     }
@@ -114,6 +140,7 @@ class Trip : Fragment() {
     private val pickImages =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
+                Log.d(TAG, "démarrage pickImages")
                 val data = result.data
                 // Traitement des données retournées par l'activité de sélection d'images
                 data?.let {
@@ -133,12 +160,14 @@ class Trip : Fragment() {
                     // Télécharger les images dans Firebase Storage
                     tripName?.let { name ->
                         uploadImagesToFirebase(selectedImagesUriList, name)
+                        Log.d(TAG, "upload en cours")
                     }
                 }
             }
         }
 
     private fun openGalleryForPhotos() {
+        Log.d(TAG, "ouverture de la gallerie photo")
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -146,6 +175,7 @@ class Trip : Fragment() {
     }
 
     private fun uploadImagesToFirebase(selectedImagesUriList: List<Uri>, tripName: String) {
+        Log.d(TAG, "lancement de l'upload")
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val tripFolderRef = storageRef.child(tripName)
@@ -187,12 +217,12 @@ class Trip : Fragment() {
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_rename_folder -> {
-                    // Action à effectuer lorsque l'option "Ajouter des photos" est sélectionnée
+                    renameTripDialog()
                     true
                 }
 
                 R.id.menu_delete_folder -> {
-                    // Action à effectuer lorsque l'option "Supprimer le dossier" est sélectionnée
+                    deleteFolder(tripName)
                     true
                 }
 
@@ -203,6 +233,7 @@ class Trip : Fragment() {
     }
 
     private fun previewPhotosClick(tripName: String) {
+        Log.d(TAG, "démarrage preview")
         val previewPhotosFragment = PreviewPhotosFragment()
         val bundle = Bundle()
         bundle.putString("tripName", tripName)
@@ -213,9 +244,30 @@ class Trip : Fragment() {
             .commit()
 
     }
+
     private fun addPhotosClick(tripName: String) {
         openGalleryForPhotos()
     }
+
+    private fun deleteFolder(tripName: String) {
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val tripFolderRef = storageRef.child(tripName)
+
+        tripFolderRef.delete()
+            .addOnSuccessListener {
+                // Dossier supprimé avec succès
+                Log.d(TAG, "Dossier supprimé avec succès: $tripName")
+                // Mettre à jour l'interface utilisateur ou effectuer d'autres opérations
+            }
+            .addOnFailureListener { e ->
+                // Erreur lors de la suppression du dossier
+                Log.e(TAG, "Erreur lors de la suppression du dossier $tripName: ${e.message}")
+                // Afficher un message d'erreur à l'utilisateur ou gérer l'erreur
+            }
+    }
+    private fun renameFolder(tripName: String, newTripName: String) {}
+
 
 }
 

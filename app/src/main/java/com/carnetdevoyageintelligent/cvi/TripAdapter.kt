@@ -13,7 +13,7 @@ class TripAdapter(
     private val showPopupMenu: (String, View) -> Unit,
     private val previewPhotosClick: (String) -> Unit,
     private val addPhotosClick: KFunction1<String, Unit>,
-    private var recyclerView: RecyclerView,
+    private val recyclerView: RecyclerView,
 
 ): RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
 
@@ -30,17 +30,21 @@ class TripAdapter(
     }
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
+
         val currentTrip = trips[position]
         holder.tripNameTextView.text = currentTrip
         holder.optionsButton.setOnClickListener {
             showPopupMenu(currentTrip, it)
         }
         holder.previewPhotosButton.setOnClickListener {
-            // Lorsque l'utilisateur appuie sur le bouton, appeler le callback avec le nom du voyage
-            previewPhotosClick(currentTrip)
             recyclerView.visibility = View.GONE
+            holder.addPhotosButton.visibility = View.GONE
+            holder.previewPhotosButton.visibility = View.GONE
+            previewPhotosClick(currentTrip)
         }
         holder.addPhotosButton.setOnClickListener{
+            holder.addPhotosButton.visibility = View.GONE
+            holder.previewPhotosButton.visibility = View.GONE
             addPhotosClick(currentTrip)
         }
     }

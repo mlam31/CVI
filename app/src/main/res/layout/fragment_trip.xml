@@ -35,18 +35,16 @@
         android:layout_marginStart="350dp"
         android:background="@color/green"
         android:contentDescription="@string/add_trip_button_desc"
-        android:foreground="?android:attr/selectableItemBackground"
         android:src="@drawable/baseline_add_24" />
 
     <ImageButton
         android:id="@+id/refresh_trip_button"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:layout_marginTop="670dp"
+        android:layout_marginTop="540dp"
         android:layout_marginStart="350dp"
         android:background="@color/green"
         android:contentDescription="@string/refresh_button_desc"
-        android:foreground="?android:attr/selectableItemBackground"
         android:src="@drawable/refresh_icon" />
 
 </RelativeLayout>
