@@ -29,7 +29,8 @@ class Trip : Fragment() {
     private var tripName: String? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
@@ -38,22 +39,29 @@ class Trip : Fragment() {
         return view
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "CutPasteId")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val addButton: AppCompatImageButton = view.findViewById(R.id.add_trip_button)
         addButton.setOnClickListener {
             showMyDialog()
         }
-        val refreshButton : AppCompatImageButton = view.findViewById(R.id.refresh_trip_button)
-        refreshButton.setOnClickListener{
+        val refreshButton: AppCompatImageButton = view.findViewById(R.id.refresh_trip_button)
+        refreshButton.setOnClickListener {
             refreshFragment()
         }
+
         val recyclerView: RecyclerView = view.findViewById(R.id.tripRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = TripAdapter(tripList) { _, anchorView ->
-            showPopupMenu( anchorView)
-        }
+        val adapter = TripAdapter(
+            tripList,
+            { tripName, anchorView -> showPopupMenu(tripName, anchorView) },
+            this::previewPhotosClick,
+            this::addPhotosClick,
+            recyclerView,
+
+        )
         recyclerView.adapter = adapter
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -88,7 +96,11 @@ class Trip : Fragment() {
                 openGalleryForPhotos()
             } else {
                 // Afficher un message d'erreur si le champ est vide
-                Toast.makeText(requireContext(), "Veuillez saisir un nom de voyage", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Veuillez saisir un nom de voyage",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         builder.setNegativeButton("Annuler") { dialog, _ ->
@@ -151,6 +163,7 @@ class Trip : Fragment() {
                 }
         }
     }
+
     private fun refreshFragment() {
         // Obtenez le gestionnaire de fragment et commencez une transaction
         val fragmentManager = requireActivity().supportFragmentManager
@@ -166,7 +179,8 @@ class Trip : Fragment() {
         // Validez la transaction pour effectuer le remplacement
         fragmentTransaction.commit()
     }
-    fun showPopupMenu(anchorView: View) {
+
+    private fun showPopupMenu(tripName: String, anchorView: View) {
         val popupMenu = PopupMenu(requireContext(), anchorView)
         popupMenu.inflate(R.menu.option_menu)
 
@@ -176,16 +190,33 @@ class Trip : Fragment() {
                     // Action à effectuer lorsque l'option "Ajouter des photos" est sélectionnée
                     true
                 }
+
                 R.id.menu_delete_folder -> {
                     // Action à effectuer lorsque l'option "Supprimer le dossier" est sélectionnée
                     true
                 }
+
                 else -> false
             }
         }
-
         popupMenu.show()
     }
+
+    private fun previewPhotosClick(tripName: String) {
+        val previewPhotosFragment = PreviewPhotosFragment()
+        val bundle = Bundle()
+        bundle.putString("tripName", tripName)
+        previewPhotosFragment.arguments = bundle
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_trip, previewPhotosFragment)
+            .addToBackStack(null)
+            .commit()
+
+    }
+    private fun addPhotosClick(tripName: String) {
+        openGalleryForPhotos()
+    }
+
 }
 
 

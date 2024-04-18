@@ -1,6 +1,6 @@
 package com.carnetdevoyageintelligent.cvi
 
-import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +8,8 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class ImageGridAdapter(imageUrls1: Context, private val imageUrls: MutableList<String>) :
+class ImageGridAdapter(
+    private val imageUrls: MutableList<String>) :
     RecyclerView.Adapter<ImageGridAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
