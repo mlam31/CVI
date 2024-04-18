@@ -23,5 +23,6 @@
     <string name="trip_options_button_desc">options pour voyage</string>
     <string name="refresh_button_desc">rafraichissement de l\'affichage des voyages</string>
     <string name="rename_option_title">Renomer le voyage</string>
+    <string name="preview_photos_title">Aperçu voyage</string>
 
 </resources>
