@@ -9,24 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.preference.PreferenceManager
-import com.google.firebase.storage.FirebaseStorage
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.MapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
-import android.media.ExifInterface
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import org.osmdroid.views.overlay.Marker
 
 
-class Map : Fragment() {
+class MapFragment : Fragment(), OnLocationReceivedListener {
 
     private lateinit var mapView: MapView
     private lateinit var zoomInButton: ImageButton
     private lateinit var zoomOutButton: ImageButton
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +41,6 @@ class Map : Fragment() {
         )
         initializeMap()
         setupZoomButtons()
-        loadPhotosFromStorage()
         return rootView
     }
     private fun initializeMap(){
@@ -69,48 +64,13 @@ class Map : Fragment() {
             mapView.controller.zoomOut()
         }
     }
-    private fun loadPhotosFromStorage() {
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.reference
-        val folderName = "test"
-        storageRef.child(folderName).listAll()
-            .addOnSuccessListener { listResult ->
-                GlobalScope.launch(Dispatchers.Main) {
-                    listResult.items.forEach { photoReference ->
-                        // Get download URL for the photo
-                        val photoUrl = photoReference.downloadUrl.await()
-
-                        // Extract GPS coordinates from the photo URL
-                        val coordinates = extractGPSFromPhoto(photoUrl.toString())
-
-                        coordinates?.let { (latitude, longitude) ->
-                            Log.d(TAG, "Latitude: $latitude, Longitude: $longitude")
-
-                        println(coordinates)
-                        }
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.e(TAG, "Error loading photos from Firebase Storage: ${exception.message}")
-            }
-    }
-    private fun extractGPSFromPhoto(photoPath: String): Pair<Double, Double>? {
-        try {
-            val exif = ExifInterface(photoPath)
-            val latLong = FloatArray(2)
-            if (exif.getLatLong(latLong)) {
-                val latitude = latLong[0].toDouble()
-                val longitude = latLong[1].toDouble()
-                val coordinate = Pair(latitude, longitude)
-                Log.d(TAG, "$coordinate")
-                return coordinate
-
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return null
+    override fun onLocationReceived(latitude: Double, longitude: Double) {
+        // Créer un marqueur à partir des coordonnées et l'ajouter à la MapView
+        val marker = Marker(mapView)
+        marker.position = GeoPoint(latitude, longitude)
+        Log.d(TAG, "création du marker pour les coordonnées : $latitude , $longitude")
+        mapView.overlays.add(marker)
+        mapView.invalidate() // Rafraîchir la MapView pour afficher le marqueur
     }
 }
 

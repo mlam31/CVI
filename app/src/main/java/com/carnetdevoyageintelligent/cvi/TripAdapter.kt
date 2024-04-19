@@ -14,7 +14,7 @@ class TripAdapter(
     private val recyclerView: RecyclerView,
     private val previewPhotosClick: (String) -> Unit,
     private val addPhotosClick: KFunction1<String, Unit>,
-    private val loadPhotosOnMap: (String) -> Unit
+    private val getPhotosLocation: (String) -> Unit
 
 
 ): RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
@@ -47,7 +47,7 @@ class TripAdapter(
             addPhotosClick(currentTrip)
         }
         holder.previewPhotosOnMapButton.setOnClickListener{
-            loadPhotosOnMap(currentTrip)
+            getPhotosLocation(currentTrip)
         }
     }
     override fun getItemCount() = trips.size

@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_map -> replaceFragment(Map())
+                R.id.bottom_map -> replaceFragment(MapFragment())
                 R.id.bottom_gallery -> replaceFragment(Gallery())
                 R.id.bottom_trip -> replaceFragment(Trip())
                 else -> {

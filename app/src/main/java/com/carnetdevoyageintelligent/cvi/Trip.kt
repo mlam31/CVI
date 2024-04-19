@@ -63,7 +63,7 @@ class Trip : Fragment() {
             recyclerView,
             this::previewPhotosClick,
             this::addPhotosClick,
-            this::loadPhotosOnMap
+            this::getPhotosLocation
             )
 
         recyclerView.adapter = adapter
@@ -124,7 +124,6 @@ class Trip : Fragment() {
             tripName = editTextTripRename.text.toString() // Assigner le nom du voyage ici
             if (tripName!!.isNotEmpty()) {
                 dialog.dismiss() // Fermer la fenêtre
-                // fct renommer le voyage
             } else {
                 // Afficher un message d'erreur si le champ est vide
                 Toast.makeText(
@@ -305,13 +304,40 @@ class Trip : Fragment() {
     }
     private fun renameFolder(tripName: String, newTripName: String) {}
 
-    private fun loadPhotosOnMap(tripName: String){
+    private fun getPhotosLocation(tripName: String) {
+        val database = FirebaseFirestore.getInstance()
+        val collectionRef = database.collection("photos") // Supposons que la collection s'appelle "photos"
 
-
-
+        val query = collectionRef
+            .whereGreaterThanOrEqualTo("url", "$tripName/") // Assurez-vous que l'URL commence par le nom du voyage
+            .whereLessThan("url", "$tripName/\uFFFF") // Assurez-vous que l'URL est inférieure au prochain préfixe possible
+        query.get()
+            .addOnSuccessListener { querySnapshot ->
+                for (document in querySnapshot.documents) {
+                    val data = document.data
+                    val coordinates = data?.get("coordinates") as? Map<*, *> // Spécifiez le type de la carte
+                    val latitude = coordinates?.get("latitude")?.toString()?.toDoubleOrNull()
+                    val longitude = coordinates?.get("longitude")?.toString()?.toDoubleOrNull()
+                    if (latitude != null) {
+                        Log.d(TAG, "Latitude: $latitude, Longitude: $longitude")
+                        if (longitude != null) {
+                            sendLocationToMapFragment(latitude, longitude)
+                        }
+                    } else {
+                        Log.e(TAG, "Latitude or longitude is null for document ${document.id}")
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Error getting documents: $exception")
+            }
     }
 
-
+    private fun sendLocationToMapFragment(latitude: Double, longitude: Double) {
+        val mapFragment = parentFragmentManager.findFragmentByTag("map_fragment_tag") as? MapFragment
+        mapFragment?.onLocationReceived(latitude, longitude)
+        Log.d(TAG, "Location sent to Map fragment")
+    }
 }
 
 
