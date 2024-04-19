@@ -11,9 +11,11 @@ import kotlin.reflect.KFunction1
 class TripAdapter(
     private val trips: MutableList<String>,
     private val showPopupMenu: (String, View) -> Unit,
+    private val recyclerView: RecyclerView,
     private val previewPhotosClick: (String) -> Unit,
     private val addPhotosClick: KFunction1<String, Unit>,
-    private val recyclerView: RecyclerView,
+    private val loadPhotosOnMap: (String) -> Unit
+
 
 ): RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
 
@@ -22,6 +24,7 @@ class TripAdapter(
         val optionsButton: ImageButton = itemView.findViewById(R.id.options_button)
         val previewPhotosButton: ImageButton = itemView.findViewById(R.id.preview_photos_button)
         val addPhotosButton: ImageButton = itemView.findViewById(R.id.add_photos_button)
+        val previewPhotosOnMapButton: ImageButton = itemView.findViewById(R.id.preview_photos_on_map_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
@@ -30,7 +33,6 @@ class TripAdapter(
     }
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
-
         val currentTrip = trips[position]
         holder.tripNameTextView.text = currentTrip
         holder.optionsButton.setOnClickListener {
@@ -38,14 +40,14 @@ class TripAdapter(
         }
         holder.previewPhotosButton.setOnClickListener {
             recyclerView.visibility = View.GONE
-            holder.addPhotosButton.visibility = View.GONE
-            holder.previewPhotosButton.visibility = View.GONE
+
             previewPhotosClick(currentTrip)
         }
         holder.addPhotosButton.setOnClickListener{
-            holder.addPhotosButton.visibility = View.GONE
-            holder.previewPhotosButton.visibility = View.GONE
             addPhotosClick(currentTrip)
+        }
+        holder.previewPhotosOnMapButton.setOnClickListener{
+            loadPhotosOnMap(currentTrip)
         }
     }
     override fun getItemCount() = trips.size

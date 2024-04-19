@@ -29,5 +29,6 @@
     <string name="rename_button_text">Renommer</string>
     <string name="zoom_out_button_desc">Réduire le zoom sur la carte</string>
     <string name="zoom_in_button_desc">Augmenter le zoom sur la carte</string>
+    <string name="photos_on_map_button_desc">place les photos sur la map</string>
 
 </resources>

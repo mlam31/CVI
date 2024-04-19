@@ -46,11 +46,21 @@
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:background="@color/blue"
-            android:layout_marginStart="160dp"
+            android:layout_marginStart="150dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:src="@drawable/baseline_add_a_photo_24"
             android:contentDescription="@string/add_photos_desc" />
+
+        <ImageButton
+            android:id="@+id/preview_photos_on_map_button"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:background="@color/blue"
+            android:layout_marginStart="270dp"
+            android:layout_marginTop="90dp"
+            android:src="@drawable/baseline_location_on_24"
+            android:contentDescription="@string/photos_on_map_button_desc" />
 
 
     </RelativeLayout>

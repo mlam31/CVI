@@ -8,6 +8,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.media.ExifInterface
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,7 +21,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+
 
 
 class Trip : Fragment() {
@@ -57,9 +60,10 @@ class Trip : Fragment() {
         val adapter = TripAdapter(
             tripList,
             { tripName, anchorView -> showPopupMenu(tripName, anchorView) },
+            recyclerView,
             this::previewPhotosClick,
             this::addPhotosClick,
-            recyclerView
+            this::loadPhotosOnMap
             )
 
         recyclerView.adapter = adapter
@@ -183,29 +187,68 @@ class Trip : Fragment() {
         selectedImagesUriList.forEachIndexed { index, uri ->
             val imageRef = tripFolderRef.child("image_$index.jpg")
             imageRef.putFile(uri)
-                .addOnSuccessListener {
-                    // L'image a été téléchargée avec succès
-                    Log.d(TAG, "Image uploaded successfully: ${it.metadata?.path}")
+                .addOnSuccessListener { uploadTask ->
+                    val photoUrl = uploadTask.metadata?.path
+                    Log.d(TAG, "Image uploaded successfully: $photoUrl")
+                    storePhotoMetadata(uri.toString(), photoUrl, tripName)
                 }
                 .addOnFailureListener { e ->
-                    // Erreur lors du téléchargement de l'image
                     Log.e(TAG, "Error uploading image: ${e.message}")
                 }
         }
+    }
+    private fun storePhotoMetadata(photoPath: String, photoUrl: String?, tripName: String) {
+        val uri = Uri.parse(photoPath)
+        val coordinates = extractGPSFromPhoto(uri)
+        coordinates?.let { (latitude, longitude) ->
+            // Créer un objet contenant l'URL de l'image et les coordonnées GPS
+            val photoData = hashMapOf(
+                "url" to photoUrl,
+                "coordinates" to hashMapOf(
+                    "latitude" to latitude.toString(),
+                    "longitude" to longitude.toString()
+                )
+            )
+            // Ajouter les données de la photo à Firestore dans la collection "photos"
+            val database = FirebaseFirestore.getInstance()
+            database.collection("photos").add(photoData)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Photo metadata added to Firestore successfully")
+                }
+                .addOnFailureListener { e ->
+                    Log.e(TAG, "Error adding photo metadata to Firestore: ${e.message}")
+                }
+        }
+    }
+    private fun extractGPSFromPhoto(uri: Uri): Pair<Double, Double>? {
+        Log.d(TAG, "extraction données GPS")
+        try {
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            inputStream?.use { stream ->
+                val exif = ExifInterface(stream)
+                val latLong = FloatArray(2)
+                if (exif.getLatLong(latLong)) {
+                    val latitude = latLong[0].toDouble()
+                    val longitude = latLong[1].toDouble()
+                    Log.d(TAG, "${Pair(latitude, longitude)}")
+                    return Pair(latitude, longitude)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error extracting GPS from photo: ${e.message}")
+        }
+        return null
     }
 
     private fun refreshFragment() {
         // Obtenez le gestionnaire de fragment et commencez une transaction
         val fragmentManager = requireActivity().supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-
         // Remplacez le fragment actuel par un nouveau fragment Trip
         val newFragment = Trip()
         fragmentTransaction.replace(R.id.fragment_trip, newFragment)
-
         // Ajoutez la transaction à la pile de retour pour permettre un retour en arrière
         fragmentTransaction.addToBackStack(null)
-
         // Validez la transaction pour effectuer le remplacement
         fragmentTransaction.commit()
     }
@@ -213,19 +256,16 @@ class Trip : Fragment() {
     private fun showPopupMenu(tripName: String, anchorView: View) {
         val popupMenu = PopupMenu(requireContext(), anchorView)
         popupMenu.inflate(R.menu.option_menu)
-
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_rename_folder -> {
                     renameTripDialog()
                     true
                 }
-
                 R.id.menu_delete_folder -> {
                     deleteFolder(tripName)
                     true
                 }
-
                 else -> false
             }
         }
@@ -233,7 +273,6 @@ class Trip : Fragment() {
     }
 
     private fun previewPhotosClick(tripName: String) {
-        Log.d(TAG, "démarrage preview")
         val previewPhotosFragment = PreviewPhotosFragment()
         val bundle = Bundle()
         bundle.putString("tripName", tripName)
@@ -242,7 +281,6 @@ class Trip : Fragment() {
             .replace(R.id.fragment_trip, previewPhotosFragment)
             .addToBackStack(null)
             .commit()
-
     }
 
     private fun addPhotosClick(tripName: String) {
@@ -253,7 +291,6 @@ class Trip : Fragment() {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val tripFolderRef = storageRef.child(tripName)
-
         tripFolderRef.delete()
             .addOnSuccessListener {
                 // Dossier supprimé avec succès
@@ -267,6 +304,12 @@ class Trip : Fragment() {
             }
     }
     private fun renameFolder(tripName: String, newTripName: String) {}
+
+    private fun loadPhotosOnMap(tripName: String){
+
+
+
+    }
 
 
 }

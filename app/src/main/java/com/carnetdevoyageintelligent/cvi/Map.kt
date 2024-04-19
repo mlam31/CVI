@@ -16,7 +16,6 @@ import org.osmdroid.views.MapView
 import org.osmdroid.api.IGeoPoint
 import org.osmdroid.util.GeoPoint
 import android.media.ExifInterface
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -70,11 +69,10 @@ class Map : Fragment() {
             mapView.controller.zoomOut()
         }
     }
-    @OptIn(DelicateCoroutinesApi::class)
     private fun loadPhotosFromStorage() {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
-        val folderName = "tiffany photos"
+        val folderName = "test"
         storageRef.child(folderName).listAll()
             .addOnSuccessListener { listResult ->
                 GlobalScope.launch(Dispatchers.Main) {
