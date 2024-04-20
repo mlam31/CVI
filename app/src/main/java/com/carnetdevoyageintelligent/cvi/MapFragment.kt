@@ -159,7 +159,6 @@ class MapFragment : Fragment(){
     }
     private fun loadMarkerImage(latitude: Double, longitude: Double, imageURL: String) {
         Log.d(TAG, "lancement loadMarkerImage avec URL : $imageURL")
-
         activity?.let { fragmentActivity ->
             Glide.with(fragmentActivity)
                 .asBitmap()
@@ -174,7 +173,6 @@ class MapFragment : Fragment(){
                         photoMarker.icon = BitmapDrawable(resources, scaledBitmap)
                         mapView.overlays.add(photoMarker)
                     }
-
                     override fun onLoadCleared(placeholder: Drawable?) {
                         // Not used in this case
                     }

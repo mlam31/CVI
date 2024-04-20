@@ -76,10 +76,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
+
+    // OpenStreetMap
     implementation(libs.osmdroid.android)
 
     implementation(libs.picasso)
     implementation(libs.androidx.databinding.runtime)
     implementation(libs.androidx.recyclerview)
+
 
 }
