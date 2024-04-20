@@ -20,17 +20,19 @@
             android:id="@+id/textView"
             android:layout_width="410dp"
             android:layout_height="100dp"
-            android:text="Carnet de voyage intelligent"
+            android:background="@color/green"
+            android:fontFamily="monospace"
             android:gravity="center"
-            android:textSize="35sp"
-            android:background="@color/green"/>
+            android:text="@string/main_activity_title"
+            android:textSize="35sp" />
 
         <TextView
             android:layout_width="410dp"
-            android:layout_height="631dp"
+            android:layout_height="1000dp"
             android:layout_marginTop="100dp"
             android:background="@color/grey"
-            android:text="Dans mon application, il est possible de:\n\n- Créer un voyage en incluant un nom de voyage et des photos \n- Editer ce voyage par exemple le renommer, le supprimer ou bien\n rajouter des photos\n- Créer plusieurs markers sur la map tel que l'on puisse identifier où les photos ont été prises (si elles contiennent des données GPS)\n\nTout cela est possible depuis la barre de navigation qui permet de naviguer entre les 3 pages principales"
+            android:fontFamily="monospace"
+            android:text="@string/main_activity_text"
             android:textSize="22sp" />
 
     </FrameLayout>
