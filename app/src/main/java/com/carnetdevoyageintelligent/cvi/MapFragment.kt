@@ -100,13 +100,18 @@ class MapFragment : Fragment(){
             .addOnSuccessListener { listResult ->
                 val folderNames = listResult.prefixes.map { it.name }
 
-                // Configurer les noms des dossiers dans la liste déroulante
-                configureSpinner(folderNames)
+                // Vérifier si le fragment est attaché avant d'appeler requireContext()
+                if (isAdded) {
+                    configureSpinner(folderNames)
+                } else {
+                    Log.e(TAG, "Fragment not attached to a context.")
+                }
             }
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Error retrieving folder names: ${exception.message}")
             }
     }
+
     private fun configureSpinner(folderNames: List<String>) {
         val defaultText = "Choisir le voyage"
         val spinnerArray = mutableListOf(defaultText)
@@ -161,14 +166,13 @@ class MapFragment : Fragment(){
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         Log.d(TAG, "lancement onResourceReady")
-                        val iconSize = 200
+                        val iconSize = 150
                         val scaledBitmap = Bitmap.createScaledBitmap(resource, iconSize, iconSize, true)
                         val photoMarker = Marker(mapView)
                         photoMarker.position = GeoPoint(latitude, longitude)
                         photoMarker.icon = BitmapDrawable(resources, scaledBitmap)
                         mapView.overlays.add(photoMarker)
                     }
-
                     override fun onLoadCleared(placeholder: Drawable?) {
                         // Not used in this case
                     }
