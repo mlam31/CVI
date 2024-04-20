@@ -15,9 +15,11 @@ import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Spinner
 import androidx.preference.PreferenceManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.views.MapView
@@ -152,25 +154,30 @@ class MapFragment : Fragment(){
     }
     private fun loadMarkerImage(latitude: Double, longitude: Double, imageURL: String) {
         Log.d(TAG, "lancement loadMarkerImage avec URL : $imageURL")
-        Picasso.get().load(imageURL).into(object : com.squareup.picasso.Target {
-            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-                // Créez un marqueur personnalisé avec l'image chargée
-                val photoMarker = Marker(mapView)
-                photoMarker.position = GeoPoint(latitude, longitude)
-                photoMarker.icon = BitmapDrawable(resources, bitmap) // Utilisez le bitmap chargé comme icône du marqueur
-                mapView.overlays.add(photoMarker) // Ajoutez le marqueur à la carte
-            }
+        activity?.let { fragmentActivity ->
+            Glide.with(fragmentActivity)
+                .asBitmap()
+                .load(imageURL)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        Log.d(TAG, "lancement onResourceReady")
+                        val iconSize = 200
+                        val scaledBitmap = Bitmap.createScaledBitmap(resource, iconSize, iconSize, true)
+                        val photoMarker = Marker(mapView)
+                        photoMarker.position = GeoPoint(latitude, longitude)
+                        photoMarker.icon = BitmapDrawable(resources, scaledBitmap)
+                        mapView.overlays.add(photoMarker)
+                    }
 
-            override fun onBitmapFailed(e: java.lang.Exception?, errorDrawable: Drawable?) {
-                Log.e(TAG, "Erreur lors du chargement de l'image : $e")
-            }
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // Not used in this case
+                    }
+                })
+        }
 
-            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-                Log.d(TAG, "Préparation pour charger l'image depuis : $imageURL")
-            }
-        })
         Log.d(TAG, "fin de loadMarkerImage")
     }
+
 
 
 
