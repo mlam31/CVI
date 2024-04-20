@@ -159,6 +159,7 @@ class Trip : Fragment() {
                         val uri = it.data
                         selectedImagesUriList.add(uri!!)
                     }
+                    Log.d(TAG, "$selectedImagesUriList")
                     // Télécharger les images dans Firebase Storage
                     tripName?.let { name ->
                         uploadImagesToFirebase(selectedImagesUriList, name)
@@ -173,6 +174,18 @@ class Trip : Fragment() {
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        pickImages.launch(intent)
+    }
+
+    private fun openGalleryForExistingTrip(folderName: String) {
+        Log.d(TAG, "ouverture de la gallerie photo")
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+
+        // Ajouter le nom du dossier en tant que donnée supplémentaire
+        intent.putExtra("folderName", folderName)
+
         pickImages.launch(intent)
     }
 
@@ -288,7 +301,7 @@ class Trip : Fragment() {
     }
 
     private fun addPhotosClick(tripName: String) {
-        openGalleryForPhotos()
+        openGalleryForExistingTrip(tripName)
     }
 
     private fun deleteFolder(tripName: String) {
