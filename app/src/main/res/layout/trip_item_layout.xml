@@ -5,12 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="30dp"
     android:layout_marginTop="10dp"
-    app:layout_constraintBottom_toTopOf="@id/bottomNavigationView">
+    app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/red">
+        android:background="@color/light_green">
 
         <TextView
             android:id="@+id/tripNameTextView"
@@ -26,7 +27,7 @@
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
             android:layout_marginStart="300dp"
-            android:background="@color/red"
+            android:background="@color/light_green"
             android:contentDescription="@string/trip_options_button_desc"
             android:src="@drawable/three_dots_vertical"/>
 
@@ -34,10 +35,10 @@
             android:id="@+id/preview_photos_button"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
-            android:background="@color/blue"
             android:layout_marginStart="30dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
+            android:background="@color/light_green"
             android:src="@drawable/baseline_photo_library_24"
             android:contentDescription="@string/preview_trip_desc" />
 
@@ -45,10 +46,10 @@
             android:id="@+id/add_photos_button"
             android:layout_width="@dimen/icon_size"
             android:layout_height="@dimen/icon_size"
-            android:background="@color/blue"
             android:layout_marginStart="150dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
+            android:background="@color/light_green"
             android:src="@drawable/baseline_add_a_photo_24"
             android:contentDescription="@string/add_photos_desc" />
 

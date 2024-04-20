@@ -1,29 +1,29 @@
 [versions]
-agp = "8.3.1"
-databindingRuntime = "8.3.1"
-firebaseAnalytics = "21.6.1"
-firebaseBom = "32.8.0"
+agp = "8.3.2"
+databindingRuntime = "8.3.2"
+firebaseAnalytics = "21.6.2"
+firebaseBom = "32.8.1"
 firebaseDatabaseKtx = "20.3.1"
 firebaseStorage = "20.3.0"
 glide = "4.12.0"
 googleServices = "4.4.1"
 gradle = "7.0.4"
 kotlin = "1.9.0"
-coreKtx = "1.12.0"
+coreKtx = "1.13.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
 kotlinGradlePlugin = "1.5.31"
 material = "1.11.0"
-activity = "1.8.2"
+activity = "1.9.0"
 constraintlayout = "2.1.4"
 mediarouter = "1.7.0"
 osmdroidAndroid = "6.1.18"
 picasso = "2.71828"
 preferenceKtxVersion = "1.2.1"
 recyclerview = "1.3.2"
-firebaseFirestore = "24.11.0"
+firebaseFirestore = "24.11.1"
 recyclerviewVersion = "1.3.2"
 preferenceKtx = "1.2.1"
 navigationFragmentKtx = "2.7.7"
@@ -31,21 +31,17 @@ navigationFragmentKtx = "2.7.7"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-databinding-runtime = { module = "androidx.databinding:databinding-runtime", version.ref = "databindingRuntime" }
-androidx-preference-ktx-v111 = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtxVersion" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
-androidx-recyclerview-v121 = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerviewVersion" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 firebase-storage = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorage" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
-gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
