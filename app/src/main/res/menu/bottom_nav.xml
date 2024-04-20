@@ -4,9 +4,9 @@
     <item android:id="@+id/bottom_map"
         android:title="@string/map_title"
         android:icon="@drawable/baseline_map_24" />
-    <item android:id="@+id/bottom_gallery"
-        android:title="@string/gallery_title"
-        android:icon="@drawable/baseline_photo_library_24" />
+    <item android:id="@+id/bottom_home"
+        android:title="@string/home_title"
+        android:icon="@drawable/baseline_home_filled_24" />
     <item android:id="@+id/bottom_trip"
         android:title="@string/trip_title"
         android:icon="@drawable/baseline_airplane_ticket_24" />

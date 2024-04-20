@@ -4,8 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="map_fragment">OpenStreetMapceeeeee</string>
     <string name="map_title">Map</string>
-    <string name="gallery_fragment">Firebase Cloud Storage</string>
-    <string name="gallery_title">Gallery</string>
+    <string name="home_title">Home</string>
     <string name="trip_fragment">Répertoire des voyages</string>*
     <string name="trip_title">Voyage</string>
     <string name="item_gallery_description">affiche les images</string>
@@ -31,7 +30,7 @@
     <string name="zoom_in_button_desc">Augmenter le zoom sur la carte</string>
     <string name="photos_on_map_button_desc">place les photos sur la map</string>
     <string name="get_location_button_desc">pose des markers pour chaque photos</string>
-    <string name="main_activity_text">Dans mon application, il est possible de:\n\n- Créer un voyage en incluant un nom de voyage et des photos \n- Editer ce voyage par en le renommant, le supprimant ou bien\n en y rajoutant des photos\n- Créer plusieurs markers sur la map tel que l\'on puisse identifier où les photos ont été prises (si elles contiennent des données GPS)\n\nTout cela est possible depuis la barre de navigation qui permet de naviguer entre les 3 pages principales</string>
+    <string name="main_activity_text">Dans mon application, il est possible de:\n\n- Créer un voyage en incluant un nom de voyage et des photos \n- Editer ce voyage en le renommant, le supprimant ou bien en y rajoutant des photos\n- Créer plusieurs markers sur la map tel que l\'on puisse identifier où les photos ont été prises (si elles contiennent des données GPS)\n\nTout cela est possible depuis la barre de navigation qui permet de naviguer entre les 3 pages</string>
     <string name="main_activity_title">Carnet de voyage intelligent</string>
 
 </resources>
