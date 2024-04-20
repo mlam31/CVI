@@ -30,4 +30,19 @@
         android:background="@color/green"
         android:contentDescription="@string/zoom_in_button_desc" />
 
+    <Spinner
+        android:id="@+id/spinnerTripList"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@color/green"/>
+
+    <ImageButton
+        android:id="@+id/get_location_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_location_searching_24"
+        android:background="@color/green"
+        android:layout_marginStart="361dp"
+        android:contentDescription="@string/get_location_button_desc" />
+
 </RelativeLayout>

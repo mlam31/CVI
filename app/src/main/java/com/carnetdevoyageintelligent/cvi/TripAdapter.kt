@@ -14,7 +14,6 @@ class TripAdapter(
     private val recyclerView: RecyclerView,
     private val previewPhotosClick: (String) -> Unit,
     private val addPhotosClick: KFunction1<String, Unit>,
-    private val getPhotosLocation: (String) -> Unit
 
 
 ): RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
@@ -24,7 +23,6 @@ class TripAdapter(
         val optionsButton: ImageButton = itemView.findViewById(R.id.options_button)
         val previewPhotosButton: ImageButton = itemView.findViewById(R.id.preview_photos_button)
         val addPhotosButton: ImageButton = itemView.findViewById(R.id.add_photos_button)
-        val previewPhotosOnMapButton: ImageButton = itemView.findViewById(R.id.preview_photos_on_map_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
@@ -46,9 +44,7 @@ class TripAdapter(
         holder.addPhotosButton.setOnClickListener{
             addPhotosClick(currentTrip)
         }
-        holder.previewPhotosOnMapButton.setOnClickListener{
-            getPhotosLocation(currentTrip)
-        }
+
     }
     override fun getItemCount() = trips.size
 
