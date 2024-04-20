@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.bottom_gallery -> replaceFragment(Gallery())
                 R.id.bottom_trip -> replaceFragment(Trip())
                 else -> {
-
                 }
             }
             true
@@ -34,3 +33,4 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 }
+
